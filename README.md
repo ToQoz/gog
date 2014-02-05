@@ -4,6 +4,6 @@
 
 github.com/ToQoz/gog support static site. But it has little to do.
 
-- Run `_src/**/gog_build.go`
+- Run `_src/**/GOG_BUILD.go`
 - Wrap `_src/**/*.html by` by `_src/_layout.html`
 - Mv `_src/**/*` to `.`

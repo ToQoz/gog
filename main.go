@@ -90,8 +90,8 @@ func build() error {
 			return nil
 		}
 
-		// run gog_build.go
-		if strings.HasSuffix(inputFilepath, "/gog_build.go") {
+		// run GOG_BUILD.go
+		if strings.HasSuffix(inputFilepath, "/GOG_BUILD.go") {
 			return goRun(inputFilepath)
 		}
 
