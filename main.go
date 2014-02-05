@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -89,6 +90,11 @@ func build() error {
 			return nil
 		}
 
+		// run gog_build.go
+		if strings.HasSuffix(inputFilepath, "/gog_build.go") {
+			return goRun(inputFilepath)
+		}
+
 		// create output file
 		outputFilepath := strings.Replace(inputFilepath, srcPath, wd, 1)
 
@@ -159,4 +165,13 @@ func mkdirIfNotExist(dir string) error {
 	}
 
 	return nil
+}
+
+func goRun(path string) error {
+	cmd := exec.Command("go")
+
+	cmd.Args = []string{"go", "run", path}
+	cmd.Stderr = os.Stderr
+
+	return cmd.Run()
 }
