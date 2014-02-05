@@ -90,6 +90,11 @@ func build() error {
 			return nil
 		}
 
+		// skip file starting with _
+		if strings.HasPrefix(filepath.Base(inputFilepath), "_") {
+			return nil
+		}
+
 		// run GOG_BUILD.go
 		if strings.HasSuffix(inputFilepath, "/GOG_BUILD.go") {
 			return goRun(inputFilepath)
