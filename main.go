@@ -79,6 +79,20 @@ func build() error {
 		return err
 	}
 
+	// Run GOG_BUILD.go at first
+	err = filepath.Walk(srcPath, func(inputFilepath string, fileInfo os.FileInfo, err error) error {
+		// run GOG_BUILD.go
+		if strings.HasSuffix(inputFilepath, "/GOG_BUILD.go") {
+			return goRun(inputFilepath)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
 	err = filepath.Walk(srcPath, func(inputFilepath string, fileInfo os.FileInfo, err error) error {
 		// skip directory
 		if fileInfo.IsDir() {
@@ -90,14 +104,14 @@ func build() error {
 			return nil
 		}
 
-		// skip file starting with _
-		if strings.HasPrefix(filepath.Base(inputFilepath), "_") {
+		// skip GOG_BUILD.go(already run)
+		if strings.HasSuffix(inputFilepath, "/GOG_BUILD.go") {
 			return nil
 		}
 
-		// run GOG_BUILD.go
-		if strings.HasSuffix(inputFilepath, "/GOG_BUILD.go") {
-			return goRun(inputFilepath)
+		// skip file starting with _
+		if strings.HasPrefix(filepath.Base(inputFilepath), "_") {
+			return nil
 		}
 
 		// create output file
